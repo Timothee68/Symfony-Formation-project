@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout Des Modules pour le programme{% endblock %}
+
+{% block body %}
+
+    {# {{ form(formAddProgram) }} #}
+
+
+    {{ form_start(formAddProgram) }}
+    {{ form_errors(formAddProgram) }}
+        <div class="container">
+            <div class="row">
+                <div class="col-12 mb-4 mt-4">
+                    {{ form_row(formAddProgram.workshop) }}
+                </div>                                                
+                <div class="col-5 mb-4 mt-4">
+                    {{ form_row(formAddProgram.nbDays) }}
+                </div>           
+                <div class="row">
+                    <div class="col-4 mt-4">   
+                        {{ form_row(formAddProgram.submit, { 'label': 'Envoyer' }) }}
+                    </div>
+                </div>     
+            </div>   
+        </div> 
+     {{ form_end(formAddProgram) }}
+{% endblock %}

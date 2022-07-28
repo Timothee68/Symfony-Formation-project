@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Module{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <h1 class="text-center">Liste des modules</h1>
+
+        <table id="table_id" class="table table-striped mt-4 display">
+            <thead>
+            <tr class="bg-secondary">
+                <th scope="col ">Catégorie associé</th>
+                <th scope="col ">Modules</th>
+                <th scope="col">Editer</th>
+                <th scope="col">supprimer</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for workshop in workshops %}
+                <tr>
+                    <td>{{ workshop.category }}</td>
+                    <td>{{ workshop }}</td>
+                    <td><button type="button" class="btn btn-lg bg-secondary mt-2 "><a href="{{ path('edit_workshop', {'id': workshop.id }) }}">Editer</a></button></td>
+                    <td><button type="button" class="btn btn-lg bg-secondary mt-2 "><a href="{{ path('delete_workshop', {'id': workshop.id }) }}">supprimer</a></button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>    
+</div>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout Stagiaire{% endblock %}
+
+{% block body %}
+    {{ form_start(formAddIntern) }}
+    {{ form_errors(formAddIntern) }}
+        <div class="container">
+            <div class="row">
+                <div class="col-4 mb-4 mt-4">
+                    {{ form_row(formAddIntern.civility) }}
+                </div>                                                 
+                <div class="col-4 mb-4 mt-4">
+                    {{ form_row(formAddIntern.firstName) }}
+                </div>
+                <div class="col-4 mb-4 mt-4">
+                    {{ form_row(formAddIntern.name) }}
+                </div>
+                    <div class="col-6 mb-4 mt-4">
+                        {{ form_row(formAddIntern.dateOfBirth) }}
+                    </div>
+                    <div class="col-6 mb-4 mt-4">
+                        {{ form_row(formAddIntern.email) }}
+                    </div>
+                    <div class="col-4 mb-4 mt-4">
+                        {{ form_row(formAddIntern.city) }}
+                    </div>
+                    <div class="col-4 mb-4 mt-4">
+                        {{ form_row(formAddIntern.cp) }}
+                    </div>                        
+                    <div class="col-4 mb-4 mt-4">
+                        {{ form_row(formAddIntern.adress) }}
+                    </div> 
+                    <div class="col-4 mb-4 mt-4">
+                        {{ form_row(formAddIntern.telephone) }}
+                    </div>                        
+                    <div class="row">
+                        <div class="col-4 mt-4">   
+                            {{ form_row(formAddIntern.submit, { 'label': 'Envoyer' }) }}
+                        </div>
+                    </div>     
+            </div>   
+        </div> 
+     {{ form_end(formAddIntern) }}
+    
+
+{% endblock %}
+
+
+
+
+
+
+
+
+

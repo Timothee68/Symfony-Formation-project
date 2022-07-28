@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les Session{% endblock %}
+
+{% block body %}
+
+<h1 class="text-center">Session</h1>
+
+<div class="container">
+    <div class="row">
+
+        <table id="table_id" class="table table-striped mt-4 display">
+            <thead>
+            <tr class="bg-secondary">
+                <th scope="col ">Formation</th>
+                <th scope="col ">Date début de session</th>
+                <th scope="col">Date fin de session</th>
+                <th scope="col">Nombre de place</th>
+                <th scope="col">Nombre réservées</th>
+                <th scope="col">Nombre restantes</th>
+                <th scope="col">Détails</th>
+                <th scope="col">Editer</th>
+                <th scope="col">supprimer</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for session in sessions %}
+                <tr>
+                    <td>{{ session.formation }}</td>
+                    <td>{{ session.dateStart | date('d/m/Y') }}</td>
+                    <td>{{ session.dateEnd | date('d/m/Y') }}</td>
+                    <td>{{ session.nbPlace }}</td>
+                    <td>{{ session.nbPlaceReserved }}</td>
+                    <td>{{ session.remainingPlaces }}</td>
+                    <td> <a href="{{ path ('detail_session' , {'id': session.id }) }}">Détails de la session</a></td>
+                    <td><button type="button" class="btn btn-lg bg-secondary mt-2 "><a href="{{ path ('edit_session' , {'id': session.id }) }}">Editer</a></button></td>
+                    <td><button type="button" class="btn btn-lg bg-secondary mt-2 "><a href="{{ path ('delete_session' , {'id': session.id }) }}">supprimer</a></button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

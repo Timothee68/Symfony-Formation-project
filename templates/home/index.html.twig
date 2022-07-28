@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    {% if app.user %}
+    <h1 class="text-center mt-5 mb-5">Bienvenue {{app.user.pseudo}}</h1>
+    {% else %}
+    <h1 class="text-center mt-5 mb-5">Bienvenue sur la page d'accueil</h1>
+    {% endif %}
+    <div class="row">
+        <div class="col">
+            <h2 class="text-center mt-5 mb-5"> Sessions déjà effectuer </h2>
+            
+            <table id="table_id" class="table table-striped mt-4 display">
+                <thead>
+                <tr class="bg-secondary">
+                    <th scope="col">Statut</th>
+                    <th scope="col">Formation</th>
+                    <th scope="col">Date de formation</th>
+                    <th scope="col">Inscrits</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for session in pastSessions %}
+                    <tr>
+                        <td>{% if session.remainingPlaces == 0 %}<button type="button" class="btn btn-lg bg-danger">SESSION COMPLETES</button>{% endif %}</td>
+                        <td>{{ session.formation }}</td>
+                        <td>Du {{ session.dateStart | date('d/m/Y')~" au "~ session.dateEnd | date('d/m/Y') }}</td>
+                        <td>{{ session.nbPlaceReserved }} / {{ session.nbPlace }}</td>
+                        <td><button type="button" class="btn btn-lg bg-secondary"><i class="fa-solid fa-pen-to-square"></i></button></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <h2 class="text-center"> Sessions en cours</h2>
+            <table id="table_id2" class="table table-striped mt-4 display">
+                <thead>
+                <tr class="bg-secondary">
+                    <th scope="col">Statut</th>
+                    <th scope="col">Formation</th>
+                    <th scope="col">Date de formation</th>
+                    <th scope="col">Inscrits</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for  session in progressSessions %}
+                    <tr>
+                        <td>{% if session.remainingPlaces == 0 %}<button type="button" class="btn btn-lg bg-danger">SESSION COMPLETES</button>{% endif %}</td>
+                        <td>{{ session.formation }}</td>
+                        <td>Du {{ session.dateStart | date('d/m/Y')~" au "~ session.dateEnd | date('d/m/Y') }}</td>
+                        <td>{{ session.nbPlaceReserved }} / {{ session.nbPlace }}</td>
+                        <td><button type="button" class="btn btn-lg bg-secondary"><i class="fa-solid fa-pen-to-square"></i></button></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <h2 class="text-center"> Sessions future</h2>
+            
+            
+            <table id="table_id3" class="table table-striped mt-4 display">
+                <thead>
+                <tr class="bg-secondary">
+                    <th scope="col">Statut</th>
+                    <th scope="col">Formation</th>
+                    <th scope="col">Date de formation</th>
+                    <th scope="col">Inscrits</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for  session in futurSessions %}
+                    <tr>
+                        <td>{% if session.remainingPlaces == 0 %}<button type="button" class="btn btn-lg bg-danger">SESSION COMPLETES</button>{% endif %}</td>
+                        <td>{{ session.formation }}</td>
+                        <td>Du {{ session.dateStart | date('d/m/Y')~" au "~ session.dateEnd | date('d/m/Y') }}</td>
+                        <td>{{ session.nbPlaceReserved }} / {{ session.nbPlace }}</td>
+                        <td><button type="button" class="btn btn-lg bg-secondary"><i class="fa-solid fa-pen-to-square fs-5"></i></button></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

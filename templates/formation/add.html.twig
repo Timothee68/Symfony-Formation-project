@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout formation{% endblock %}
+
+{% block body %}
+    {{ form_start(formAddFormation) }}
+    {{ form_errors(formAddFormation) }}
+        <div class="container">
+            <div class="row">
+                    <div class="col-4 mb-4 mt-4">
+                        {{ form_row(formAddFormation.entitled) }}
+                    </div>
+                    <div class="col-4 mb-4 mt-4">
+                        {{ form_row(formAddFormation.description) }}
+                    </div>                         
+                    <div class="row">
+                        <div class="col-4 mt-4">   
+                            {{ form_row(formAddFormation.submit, { 'label': 'Envoyer' }) }}
+                        </div>
+                    </div>     
+            </div>   
+        </div> 
+     {{ form_end(formAddFormation) }}
+    
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails stagiaire{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row ">
+        <div class=" d-flex justify-content-evenly">
+            <div class="card mb-3 mt-5" style="max-width: 840px;">
+                <div class="card-body fs-4">
+                    <h2 class="card-title  mb-4"><strong> {{intern.civility ~ " : " ~ intern | upper }}</strong></h2>
+                    <p class="genre card-text  mt-2" ><strong>Née le : </strong>{{ intern.dateOfBirth | date('d/m/Y')  ~ " (" ~ intern.age ~" ans) " }}</p>
+                    <p class="card-text "><strong>E-mail : </strong>{{ intern.email }}</p>
+                    <p class="card-text "><strong>Adresse : </strong>{{ intern.fullAdress }}</p>
+                    <p class="card-text "><strong>{{ intern.telephone }}</strong></p>
+                </div>
+                <div class="card-body fs-4">
+                    <h2 class="card-title  mb-4"><strong> Sessions prévues</strong></h2>
+                    {% for session in intern.sessions %}
+                    <p class="genre card-text  mt-2" ><strong>{{session.formation}} </strong> du ( {{ session.dateStart | date('d/m/Y') ~ " au " ~ session.dateEnd | date('d/m/Y')}} )</p>
+                    {% endfor %}
+                </div>
+                        
+                <button type="button" class="btn btn-lg bg-secondary mt-2 "><a href="{{ path('app_intern') }}">retour liste Stagiaires</a></button>
+            </div>
+        </div>    
+    </div>
+</div>
+
+
+{% endblock %}

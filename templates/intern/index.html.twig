@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste Stagiaire{% endblock %}
+
+{% block body %}
+<div class="col  d-flex justify-content-evenly ">
+</div>
+<div class="container">
+    <div class="row">
+        <h1 class="text-center">Liste des stagiaires</h1>
+
+        <button type="button" class="btn btn-lg bg-secondary mt-5 mb-5 col-3"><a href="{{ path('add_intern') }}">Ajouter une stagiaire</a></button>
+        <table id="table_id" class="table table-striped mt-4 display">
+            <thead>
+            <tr class="bg-secondary">
+                <th scope="col ">civilité</th>
+                <th scope="col ">Stagiaire</th>
+                <th scope="col">Editer</th>
+                <th scope="col">supprimer</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for intern in interns %}
+                <tr>
+                    <td>{{ intern.civility }}</td>
+                    <td><a href="{{ path('detail_intern' , {'id': intern.id}) }}">{{ intern }}</a></td>
+                    <td><button type="button" class="btn btn-lg bg-secondary mt-2 "><a href="{{ path('edit_intern' , {'id': intern.id}) }}">Editer</a></button></td>
+                    <td><button type="button" class="btn btn-lg bg-secondary mt-2 "><a href="{{ path('delete_intern' , {'id': intern.id}) }}">supprimer</a></button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

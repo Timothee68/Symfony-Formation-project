@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout de Module{% endblock %}
+
+{% block body %}
+    {# {{ form(formAddWorkshop) }} #}
+    {{ form_start(formAddWorkshop) }}
+    {{ form_errors(formAddWorkshop) }}
+        <div class="container">
+            <div class="row ">
+                <div class="col-6 mb-4 mt-4">
+                    {{ form_row(formAddWorkshop.title) }}
+                </div>   
+                {# <div class="col-6 mb-4 mt-4">
+                    {{ form_row( formAddWorkshop.category ) }}
+                </div>                         #}
+                <div class="row">
+                    <div class="col-4 mt-4">   
+                        {{ form_row(formAddWorkshop.submit, { 'label': 'Envoyer' }) }}
+                    </div>
+                </div>     
+            </div>   
+        </div> 
+     {{ form_end(formAddWorkshop) }}
+    
+
+{% endblock %}

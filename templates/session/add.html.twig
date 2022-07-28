@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout Stagiaire{% endblock %}
+
+{% block body %}
+        <h1 class="text-center">Ajout session </h1>
+    {{ form_start(formAddSession) }}
+    {{ form_errors(formAddSession) }}
+        <div class="container">
+            <div class="row">
+                <div class="col-5 mb-4 mt-4">
+                    {{ form_row(formAddSession.dateStart) }}
+                </div>
+                <div class="col-5 mb-4 mt-4">
+                    {{ form_row(formAddSession.dateEnd) }}
+                </div>
+                <div class="col-2 mb-4 mt-4">
+                    {{ form_row(formAddSession.nbPlace) }}
+                </div>
+                <div class="row">
+                    <div class="col-4 mt-4">   
+                        {{ form_row(formAddSession.submit, { 'label': 'Envoyer' }) }}
+                    </div>
+                </div>     
+            </div>   
+        </div> 
+     {{ form_end(formAddSession) }}
+{% endblock %}

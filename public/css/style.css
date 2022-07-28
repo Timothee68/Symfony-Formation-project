@@ -1,0 +1,20 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+img{
+    width: 150px;
+
+}
+
+a{
+    color:black !important;
+    text-decoration: none !important;
+}
+
+a:hover {
+    color:rgb(39, 45, 110) !important;
+    transition-delay: 80ms;
+}
