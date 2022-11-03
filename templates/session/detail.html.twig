@@ -5,25 +5,25 @@
 {% block body %}
 
 <h1 class="text-center">Session {{session.formation}}</h1>
-    <h2 class="text-center">Les Modules</h2>
-        <div class="container">
-            <div class="row ">
-                <p>date : <strong>{{session.dateStart | date('d/m/Y') ~" au "~ session.dateEnd | date('d/m/Y')}}</strong> : {{session.dateDays}}</p>
-                <p>En tout la formation comporte(s) : {{ session.programs | length }} modules dans la formation</p>
-                    {% if session.totalDaysFormation > session.totalDaysSession %}
-                        <h1 class="bg-danger"> Le nombre de jour allouée a la session est dépasser veuillez revoir vos modules <br>{{ session.totalDaysFormation }} jours de formation pour {{session.totalDaysSession}} jours alloués</h1>
-                    {% else %}
-                        <p> En tout la formation compte(s) : {{ session.totalDaysFormation }} jours de formation pour {{session.totalDaysSession}} jours alloués </p>
-                    {% endif %}
-                <button type="button" class="btn btn-lg bg-secondary mt-5 mb-5 col-3"><a href="{{ path('add_program', {'id': session.id}) }}">Ajouter un module à la session </a></button>
+<div class="container">
+    <div class="row ">
+        <p>date : <strong>{{session.dateStart | date('d/m/Y') ~" au "~ session.dateEnd | date('d/m/Y')}}</strong> : {{session.dateDays}}</p>
+        <p>En tout la formation comporte(s) : {{ session.programs | length }} modules dans la formation</p>
+        {% if session.totalDaysFormation > session.totalDaysSession %}
+        <h1 class="bg-danger"> Le nombre de jour allouée a la session est dépasser veuillez revoir vos modules <br>{{ session.totalDaysFormation }} jours de formation pour {{session.totalDaysSession}} jours alloués</h1>
+        {% else %}
+        <p> En tout la formation compte(s) : {{ session.totalDaysFormation }} jours de formation pour {{session.totalDaysSession}} jours alloués </p>
+        {% endif %}
+                <h2 class="text-center">Les Modules</h2>
+                {# <button type="button" class="btn btn-lg bg-secondary mt-5 mb-5 col-3"><a href="{{ path('add_program', {'id': session.id}) }}">Ajouter un module à la session </a></button> #}
                 <table id="table_id" class="table table-striped mt-4 display">
                     <thead>
                     <tr class="bg-secondary">
                         <th scope="col ">Catégorie associé</th>
                         <th scope="col ">Modules</th>
                         <th scope="col ">Jours de formation</th>
-                        <th scope="col ">Editer</th>
-                        <th scope="col ">Supprimer</th>
+                        {# <th scope="col ">Editer</th>
+                        <th scope="col ">Supprimer</th> #}
                     </tr>
                     </thead>
                     <tbody>
@@ -32,8 +32,8 @@
                             <td>{{ program.workshop.category }}</td>
                             <td>{{ program.workshop }}</td>
                             <td>{{ program.nbDays }}</td>
-                            <td><button type="button" class="btn btn-lg bg-secondary mt-2 "><a href="{{ path('edit_program' , {'id': program.id}) }}">Modifier</a></button></td>
-                            <td><button type="button" class="btn btn-lg bg-secondary mt-2 "><a href="{{ path('delete_program' , {'id': program.id}) }}">supprimer</a></button></td>
+                            {# <td><button type="button" class="btn btn-lg bg-secondary mt-2 "><a href="{{ path('edit_program' , {'id': program.id}) }}">Modifier</a></button></td>
+                            <td><button type="button" class="btn btn-lg bg-secondary mt-2 "><a href="{{ path('delete_program' , {'id': program.id}) }}">supprimer</a></button></td> #}
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -93,5 +93,5 @@
                 </div>    
                 <button type="button" class="btn btn-lg bg-secondary mt-2 "><a href="{{ path('app_session') }}">retour</a></button>
             </div>
-        </div>
+        </div>      
 {% endblock %}

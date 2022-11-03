@@ -13,6 +13,7 @@
             <tr class="bg-secondary">
                 <th scope="col ">Formation</th>
                 <th scope="col">Crée session</th>
+                {# <th scope="col">Edite session </th> #}
                 <th scope="col">Editer</th>
                 <th scope="col">supprimer</th>
             </tr>
@@ -22,7 +23,8 @@
                 <tr>
                     <td><a href="{{ path('detail_formation' , {'id': formation.id}) }}">{{ formation.entitled }}</a></td>
                     <td><a href="{{ path('add_session', {'id': formation.id}) }}">Ajouter une session</a></td>
-                    <td><button type="button" class="btn btn-lg bg-secondary mt-2 "><a href="{{ path('edit_formation' , {'id': formation.id}) }}">Editer</a></button></td>
+                    {# <td><button type="button" class="btn btn-lg bg-secondary mt-2 "><a href="{{ path('edit_session' , {'id': session.id }) }}">Editer session </a></button></td> #}
+                    <td><button type="button" class="btn btn-lg bg-secondary mt-2 "><a href="{{ path('edit_formation' , {'formation_id': formation.id}) }}">Editer</a></button></td>
                     <td><button type="button" class="btn btn-lg bg-secondary mt-2 "><a href="{{ path('delete_formation' , {'id': formation.id}) }}">supprimer</a></button></td>
                 </tr>
                 {% endfor %}
@@ -30,4 +32,5 @@
         </table>
     </div>
 </div>
+
 {% endblock %}

@@ -32,7 +32,13 @@ class SessionController extends AbstractController
             'sessions' => $sessions,
         ]);
     }
-
+    /**
+     * @Route("/calendar", name="app_booking_calendar", methods={"GET"})
+     */
+    public function calendar(): Response
+    {
+        return $this->render('booking/calendar.html.twig');
+    }
 
 
     /**
@@ -47,15 +53,16 @@ class SessionController extends AbstractController
         ]);
     }
 
+    
     /**
      * fonction d'ajout de session
      * @Route("/session/{id}/add", name="add_session")
      */
     public function addSession(Formation $formation, ManagerRegistry $doctrine, Session $session = null , Request $request): Response
     {
-        if(!$session){
-            $session = new Session();
-        }
+       
+        $session = new Session();
+        
         $form = $this->createForm(SessionType::class,$session);
         $form->handleRequest($request);
         // si envoye et sanitise avec les filter etc protection faille xss puis on execute le tout 
@@ -72,8 +79,12 @@ class SessionController extends AbstractController
                 return $this->redirectToRoute('app_session'); 
             }
         return $this->render('session/add.html.twig', [
-            'formAddSession' =>  $form->createView(),
-            'edit' => $session->getId(),
+            //  ici form car dans le gsf.js il est appler form pour le collection type 
+            'form' =>  $form->createView(),
+            // on envoie l'id session
+            "sessionId" => $session->getId(),
+            'session' => $session,
+            'add' => 'add'
         ]);
     }
 
@@ -89,77 +100,79 @@ class SessionController extends AbstractController
         $form = $this->createForm(SessionType::class,$session);
         $form->handleRequest($request);
         // si envoye et sanitise avec les filter etc protection faille xss puis on execute le tout 
-            if($form->isSubmitted() && $form->isValid())
-            {
-                $session = $form->getData();
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $session = $form->getData();
+            // if($session->getTotalDaysSession() > $session->getTotalDaysFormation()){
+            //     $this->addFlash("error" , "le nombre de jour total attitré a la session est dépasser ");
+            //     return $this->redirectToRoute('edit_session'); 
+            // }
+              
                 $entityManager = $doctrine->getManager();
                 $entityManager->persist($session);
                 $entityManager->flush();
-                $this->addFlash("success" ,
-                //  $session->getFormation()->getEntitled().
-                " à été ajouté/Modifié avec succès");
+                $this->addFlash("success" , " à été ajouté/Modifié avec succès");
                 return $this->redirectToRoute('app_session'); 
             }
         return $this->render('session/add.html.twig', [
-            'formAddSession' =>  $form->createView(),
-            'edit' => $session->getId(),
+            'form' =>  $form->createView(),          
+            "sessionId" => $session->getId(),
+            'session' => $session,
         ]);
     }
 
-    /**
-     * fonction pour ajouter un module a une session pour crée un programme 
-     * @Route("/session/program/add/{id}", name="add_program")
-     */
-    public function addProgram(Session $session ,ManagerRegistry $doctrine, Program $program = null , Request $request): Response
-    {
-        if(!$program){
-            $program = new Program();
-        }
-        $form = $this->createForm(ProgramType::class,$program);
-        $form->handleRequest($request);
-        // si envoye et sanitise avec les filter etc protection faille xss puis on execute le tout 
-            if($form->isSubmitted() && $form->isValid())
-            {
-                $program = $form->getData();
-                $session->addProgram($program);
-                $entityManager = $doctrine->getManager();
-                $entityManager->persist($program);
-                $entityManager->flush();
-                $this->addFlash("success" , " à été ajouté/Modifié avec succès");
-                return $this->redirectToRoute('detail_session', ['id' => $program->getSession()->getId()]); 
-            }
-        return $this->render('session/addProgram.html.twig', [
-            'formAddProgram' =>  $form->createView(),
-            'edit' => $program->getId(),
-        ]);
-    }
+    // /**
+    //  * fonction pour ajouter un module a une session pour crée un programme 
+    //  * @Route("/session/program/add/{id}", name="add_program")
+    //  */
+    // public function addProgram(Session $session ,ManagerRegistry $doctrine, Program $program = null , Request $request): Response
+    // {
+    //     $program = new Program();
+    //     $form = $this->createForm(ProgramType::class,$program);
+    //     $form->handleRequest($request);
+    //     // si envoye et sanitise avec les filter etc protection faille xss puis on execute le tout 
+    //         if($form->isSubmitted() && $form->isValid())
+    //         {
+    //             $program = $form->getData();
+    //             $session->addProgram($program);
+    //             $entityManager = $doctrine->getManager();
+    //             $entityManager->persist($program);
+    //             $entityManager->flush();
+    //             $this->addFlash("success" , " à été ajouté/Modifié avec succès");
+    //             return $this->redirectToRoute('detail_session', ['id' => $program->getSession()->getId()]); 
+    //         }
+    //     return $this->render('session/addProgram.html.twig', [
+    //         'formAddProgram' =>  $form->createView(),
+    //         'edit' => null,
+    //     ]);
+    // }
 
-     /**
-      * fonction pour modifier un module a une session pour crée un programme 
-     * @Route("/session/program/{id}/edit", name="edit_program")
-     */
-    public function editProgram(ManagerRegistry $doctrine, Program $program = null , Request $request): Response
-    {
-        if(!$program){
-            $program = new Program();
-        }
-        $form = $this->createForm(ProgramType::class,$program);
-        $form->handleRequest($request);
-        // si envoye et sanitise avec les filter etc protection faille xss puis on execute le tout 
-            if($form->isSubmitted() && $form->isValid())
-            {
-                $program = $form->getData();
-                $entityManager = $doctrine->getManager();
-                $entityManager->persist($program);
-                $entityManager->flush();
-                $this->addFlash("success" , " à été ajouté/Modifié avec succès");
-                return $this->redirectToRoute('detail_session', ['id' => $program->getSession()->getId()]); 
-            }
-        return $this->render('session/addProgram.html.twig', [
-            'formAddProgram' =>  $form->createView(),
-            'edit' => $program->getId(),
-        ]);
-    }
+    // /**
+    // * fonction pour modifier un module a une session pour crée un programme 
+    //  * @Route("/session/program/{id}/edit", name="edit_program")
+    //  */
+    // public function editProgram(ManagerRegistry $doctrine, Program $program = null , Request $request): Response
+    // {
+    //     if(!$program){
+    //         $program = new Program();
+    //     }
+    //     $form = $this->createForm(ProgramType::class,$program);
+    //     $form->handleRequest($request);
+    //     // si envoye et sanitise avec les filter etc protection faille xss puis on execute le tout 
+    //         if($form->isSubmitted() && $form->isValid())
+    //         {
+    //             $program = $form->getData();
+    //             $entityManager = $doctrine->getManager();
+    //             $entityManager->persist($program);
+    //             $entityManager->flush();
+    //             $this->addFlash("success" , " à été ajouté/Modifié avec succès");
+    //             return $this->redirectToRoute('detail_session', ['id' => $program->getSession()->getId()]); 
+    //         }
+    //     return $this->render('session/addProgram.html.twig', [
+    //         'formAddProgram' =>  $form->createView(),
+    //         'edit' => $program->getId(),
+    //     ]);
+    // }
 
 
     /**
@@ -200,14 +213,14 @@ class SessionController extends AbstractController
      */
     public function removeInternInSession(ManagerRegistry $doctrine, Session $session ,Intern $intern)
     {
-        dump($session);
-        dump($intern);
+    
         $session->removeIntern($intern);
         $entityManager = $doctrine->getManager();
         $entityManager->persist($session);
         $entityManager->flush();
         return $this->redirectToRoute('detail_session' , [ 'id' => $session->getId() ]);
     }
+
 
     /**
     * @Route("/session/{id}delete", name="delete_session")
@@ -223,16 +236,16 @@ class SessionController extends AbstractController
         return $this->redirectToRoute("app_session");
     }
 
-    /**
-    * @Route("/program/{id}delete", name="delete_program")
-    */
-    public function deleteProgram(ManagerRegistry $doctrine, Program $program ) :Response
-    {
-        $entityManager = $doctrine->getManager();
-        $entityManager->remove($program);
-        $entityManager->flush();
-        $this->addFlash("success" , "module à été supprimé avec succès");
-        return $this->redirectToRoute('detail_session', ['id' => $program->getSession()->getId()]);
-    }
+    // /**
+    // * @Route("/program/{id}delete", name="delete_program")
+    // */
+    // public function deleteProgram(ManagerRegistry $doctrine, Program $program ) :Response
+    // {
+    //     $entityManager = $doctrine->getManager();
+    //     $entityManager->remove($program);
+    //     $entityManager->flush();
+    //     $this->addFlash("success" , "module à été supprimé avec succès");
+    //     return $this->redirectToRoute('detail_session', ['id' => $program->getSession()->getId()]);
+    // }
 
 }

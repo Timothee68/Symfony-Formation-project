@@ -46,9 +46,15 @@ class Session
     private $formation;
 
     /**
-     * @ORM\OneToMany(targetEntity=Program::class, mappedBy="session")
+     * @ORM\OneToMany(targetEntity=Program::class, mappedBy="session" , cascade={"persist"} , orphanRemoval=true)
+     * @ORM\OrderBy({"workshop" = "ASC"})
      */
     private $programs;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $title;
 
     public function __construct()
     {
@@ -85,21 +91,36 @@ class Session
         return $this;
     }
 
-    // fonction pour afficher le temps de foramtion au format date jour mois année 
+     /**
+     * @return $days , fonction pour afficher le temps de formation au format date jour mois année crée un date diff entre $dateStart et $dateEnd
+     */ 
     public function getDateDays()
     {
         $days = date_diff($this->dateStart,$this->dateEnd);
         return $days->format("%d jours /%m mois /%Y années");
     }
 
-    // fonction pour afficher le nombre de jours de la formation en nombre de jour 
-    public function getTotalDaysSession()
+     /**
+     * @return Int Fonction qui donne le Timstamp des variables $dateStart et $dateEnd ,Ensuite on soustrait $end a $start pour récuperer lle timeStamp réel puis on calcul le nombre de jours de la formation en nombre entier
+     */
+    public function getTotalDaysSession() : int
     {
        $start  = $this->dateStart->getTimestamp();
        $end  = $this->dateEnd->getTimestamp();
        $days = $end - $start;
        $result = (int)($days /( 60 * 60 * 24 ));
        return $result;
+    }
+
+    /**
+     * @return Int Fonction pour afficher le nombre de jours total attitré à la formation en nombre de jour 
+     */
+    public function getTotalDaysFormation(){
+        $days = 0 ;  
+        foreach ($this->programs as $program) {
+            $days += $program->getNbDays();                    
+        }
+        return $days ;
     }
 
     public function getNbPlace(): ?int
@@ -117,21 +138,17 @@ class Session
     // fonction pour afficher le nombre de place restante dans la session 
     public function getRemainingPlaces(){
        $reserved =  $this->nbPlace - count($this->interns);
-    //    if($reserved < 0){
-    //     echo "<p class='bg-danger'>Erreur la limite de stagiaire prévue dans la session à été dépasser</p>";
-    //    }else{
+
            return $reserved;
-    //    }
+
     }
     // fonction pour afficher le nombre de place réserve pour la session 
     public function getNbPlaceReserved(){
         $reserved =  $this->nbPlace - count($this->interns);
         $remaining =  $this->nbPlace - $reserved;
-        // if($remaining > $this->nbPlace){
-        //     echo "<p class='bg-danger'>Erreur la limite de stagiaire prévue dans la session à été dépasser ".$remaining." séléctionner, ".$this->nbPlace." de prévue.</p>";
-        // }else{
+        
         return $remaining;
-        // }
+  
     }
     /**
      * @return Collection<int, Intern>
@@ -169,14 +186,7 @@ class Session
         return $this;
     }
 
-    // fonction pour afficher le nombre de jour au total de tout les modules ajouter à la session 
-    public function getTotalDaysFormation(){
-        $days = 0 ;  
-        foreach ($this->programs as $program) {
-            $days += $program->getNbDays();                    
-        }
-        return $days ;
-    }
+
     
     /**
      * @return Collection<int, Program>
@@ -204,6 +214,18 @@ class Session
                 $program->setSession(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
 
         return $this;
     }

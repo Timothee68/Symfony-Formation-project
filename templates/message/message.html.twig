@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messagerie intern {% endblock %}
+
+{% block body %}
+
+<div class="container-fluid mt-5">
+    <div class="row mt-5"> 
+        <div class="col-12">
+          <p>
+            <button class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="true" aria-controls="multiCollapseExample1">Messages lus</button>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Messages non lus <span>{{ user.nbReceivedNotRead  }}</span></button> 
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample3" aria-expanded="false" aria-controls="multiCollapseExample3">Messages envoyer </button>
+          </p>
+      
+          <div class="row">
+            <div class="col-12">
+              <div class="collapse multi-collapse" id="multiCollapseExample1">
+                <div class="card card-body">
+                   <h2>Message Recus</h2>
+                    <table id="table_id" class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Objet</th>
+                          <th scope="col">Envoyer par:</th>
+                          <th scope="col">Email</th>
+                          <th scope="col">Envoyer le :</th>
+                          <th scope="col">contenue message mis la pour le moment :</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for message in messages %}
+                          {% if message.isRead == 1 and  message.recipient.id == app.user.id %}
+                        <tr>
+                          <td><a href="{{ path('app_received' , {'id': message.id }) }}">{{ message.title }}</a></td>
+                          <td>{{ message.sender}}</td>
+                          <td>{{ message.sender.email}}</td>
+                          <td>{{message.createdAt | date('d/m/Y H:m')}}</td>
+                          <td>{{message.message}}</td>
+                        </tr>
+                          {% endif %}               
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="collapse multi-collapse" id="multiCollapseExample2">
+                <div class="card card-body">
+                  <h2>Message Non lus</h2>
+                  <table id="table_id2" class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Objet</th>
+                        <th scope="col">Envoyer par:</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Envoyer le :</th>
+                        <th scope="col">contenue message mis la pour le moment :</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for message in messages %}
+                        {% if message.isRead == 0 and  message.recipient.id == app.user.id  %}
+                      <tr>
+                        <td><a href="{{ path('app_read' , {'id': message.id}) }}">{{ message.title }}</a></td>
+                        <td>{{ message.sender}}</td>
+                        <td>{{ message.sender.email}}</td>
+                        <td>{{message.createdAt | date('d/m/Y H:m')}}</td>
+                        <td>{{message.message}}</td>
+                      </tr>
+                        {% endif %}               
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="collapse multi-collapse" id="multiCollapseExample3">
+                <div class="card card-body">
+                  <h2>Message envoyés {{ user.NbSent }}</h2>
+                  <table id="table_id3" class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Objet</th>
+                        <th scope="col">Envoyer à:</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Envoyer le :</th>
+                        <th scope="col">contenue message mis la pour le moment :</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for message in messages %}
+                        {% if app.user.id == message.sender.id %}
+                      <tr>
+                        <td><a href="{{ path('app_sent' , {'id': message.id }) }}">{{ message.title }}</a></td>
+                        <td>{{ message.recipient}}</td>
+                        <td>{{ message.recipient.email}}</td>
+                        <td>{{message.createdAt | date('d/m/Y H:m')}}</td> 
+                        <td>{{message.message}}</td>
+                      </tr>
+                        {% endif %}
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="accordion accordion-flush" id="accordionFlushExample">
+               <div class="accordion-item">
+                  <h2 class="accordion-header" id="flush-headingOne">
+                  <button class="accordion-button collapsed fs-3 bg-primary col-4" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                  Nouveau message
+                  </button>
+                  </h2>
+                  <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                      <div class="accordion-body">
+                          <div class="container">
+                              <div class="row">
+                                  <div class="col-12">
+                                      {{ form_start(formAddMessageMail) }}
+                                      {{ form_errors(formAddMessageMail) }}
+                                      <div class="card">
+                                          <ul class="list-group list-group-flush">
+                                              <li class="list-group-item"><strong>Destinataire :</strong>    {{ form_row(formAddMessageMail.recipient, { 'label': 'Destinataire' }) }}</li>
+                                              <li class="list-group-item"><strong>Objet:</strong>  {{ form_row(formAddMessageMail.title, { 'label': 'Objet du message' })  }}</li>
+                                              <li class="list-group-item"><strong>message:</strong>   {{ form_row(formAddMessageMail.message) }}</li>
+                                              <li class="list-group-item"><strong>Envoyer </strong>  {{ form_row(formAddMessageMail.submit, { 'label': 'Envoyer' }) }}</li>
+                                          </ul>
+                                      </div>
+                                      {{ form_end(formAddMessageMail) }}     
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+</div>
+{% endblock %}

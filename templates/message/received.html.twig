@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messagerie intern {% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <h1 class="text-center">Message recu de {{message.sender}}</h1>
+        <div class="col-12">
+            <div class="card">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><strong>Objet :</strong>  {{ message.title }}</li>
+                  <li class="list-group-item"><strong>Envoyer par:</strong> {{ message.sender}}</li>
+                  <li class="list-group-item"><strong>Email :</strong> {{ message.sender.email}}</li>
+                  <li class="list-group-item"><strong>Envoyer le :</strong> {{message.createdAt | date('d/m/Y H:m')}}</li>
+                </ul>
+                <div class="card-body">
+                    <p class="card-text"><strong>Message :</strong></p>
+                    <p class="card-text">{{message.message}}</p>
+                </div>
+              <button class="btn btn-primary"><a href="{{ path('app_messageMail')}}" class="card-link">retour messagerie </a></button>  
+            </div> 
+        </div>
+        <div class="col-12">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                 <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed fs-3 bg-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    Répondre au message
+                    </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-12">
+                                        {{ form_start(formAddMessageMail) }}
+                                        {{ form_errors(formAddMessageMail) }}
+                                        <div class="card">
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item"><strong>Destinataire :</strong>    {{ form_row(formAddMessageMail.recipient, { 'label': 'Destinataire' }) }}</li>
+                                                <li class="list-group-item"><strong>Objet:</strong>  {{ form_row(formAddMessageMail.title, { 'label': 'Objet du message' })  }}</li>
+                                                <li class="list-group-item"><strong>message:</strong>   {{ form_row(formAddMessageMail.message) }}</li>
+                                                <li class="list-group-item"><strong>Envoyer </strong>  {{ form_row(formAddMessageMail.submit, { 'label': 'Envoyer' }) }}</li>
+                                            </ul>
+                                        </div>
+                                        {{ form_end(formAddMessageMail) }}     
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

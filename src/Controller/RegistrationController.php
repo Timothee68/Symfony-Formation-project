@@ -28,7 +28,7 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/register", name="app_register")
+     * @Route("/admin/register", name="app_register")
      */
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
@@ -58,13 +58,13 @@ class RegistrationController extends AbstractController
             );
             // do anything else you need here, like send an email
 
+            $this->addFlash('success', 'Ton compte à bien été enregistré(e) !');
             return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,
                 $request
             );
         }
-
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);

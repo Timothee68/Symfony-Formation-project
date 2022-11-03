@@ -16,17 +16,22 @@
                 {{ form_row(registrationForm.email) }}
             </div>
             <div class="col-6 mb-4 mt-4">    
-                {{ form_row(registrationForm.pseudo) }}
+                {{ form_row(registrationForm.pseudo, { label: 'Entre votre nom complet'}) }}
             </div>    
             <div class="col-6 mb-4 mt-4">
-                {{ form_row(registrationForm.plainPassword, {
-                    label: 'Password'
-                }) }}
+                {{ form_row(registrationForm.plainPassword, { label: 'Password'}) }}
+            </div>   
+            <div class="col-6 mb-4 mt-4">
+                {{ form_row(registrationForm.roles, { label: 'Choisis le rôle de la personne'}) }}
             </div>    
             <div class="col-12 mb-4 mt-4">
                 {{ form_row(registrationForm.agreeTerms) }}
-            </div>    
-            <div class="col-4 mb-4 mt-4">
+            </div>   
+            <div class="col-12 mb-4 mt-4">
+                {{ form_row(registrationForm.recaptcha) }}
+                {{ form_errors(registrationForm.recaptcha) }}
+    {# That will display the error of the captcha to user #}
+            </div>   
                 <button class="btn btn-primary col-4" type="submit" class="btn">Register</button>
             </div>
         </div>

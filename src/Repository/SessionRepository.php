@@ -70,7 +70,7 @@ class SessionRepository extends ServiceEntityRepository
         $now = new \DateTime();
         return $this->createQueryBuilder('s')
                     ->andWhere('s.dateStart < :val AND s.dateEnd > :val')
-                    ->setParameter('val',$now)
+                    ->setParameter('val', $now)
                     ->orderBy('s.dateStart', 'ASC')
                     ->getQuery()
                     ->getResult()
@@ -81,26 +81,26 @@ class SessionRepository extends ServiceEntityRepository
     public function findInternNotInSession(int $id)
     {
         // on ce connecte a l'entité 
-        $em = $this->getEntityManager();
+        $entityManager = $this->getEntityManager();
         //on crée une requête que $sub prend pour valeur 
-        $sub = $em->createQueryBuilder();
+        $sub =  $entityManager->createQueryBuilder();
         // $qb prend la meme valeur que $sub pour faire une sous requête préparer
         $qb = $sub; 
         // on fait une première requête qui dit select all from intern left join intern_session where id = id envoyer
         // on récupère donc tout les stagiaire qui sont dans la session 
-            $qb->select('i')
+            $qb ->select('i')
                 ->from('App\Entity\Intern', 'i')
                 // ici on passe par sessions délcarer dans l'entité Intern pour faire la liaison via la relation ManyToMany 
                 ->leftJoin('i.sessions', 's')
                 ->where('s.id = :id');
                 
-            $sub = $em->createQueryBuilder();
+            $sub =  $entityManager->createQueryBuilder();
             // la sous requete reprend la selection il faut changer l'alias sinon il y a un soucis de compréhension 
-            //on selectionne tout les stagiaires 
+            // on selectionne tout les stagiaires 
             // select all from intern 
             $sub->select('e')
                 ->from('App\Entity\Intern', 'e')     
-                // where ( on récupère tout les stagiaires ) not in ( 1er requête qui contient ceux dans la session )         
+                // where ( on récupère tout les stagiaires ) not in ( 1er requête qui contient ceux qui sont dans la session )         
                 ->where($sub->expr()->notIn('e.id', $qb->getDQL()))
                 // on prend en paramêtre de comparaison les id 
                 ->setParameter('id',$id)

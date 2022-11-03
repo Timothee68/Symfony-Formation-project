@@ -18,3 +18,19 @@ a:hover {
     color:rgb(39, 45, 110) !important;
     transition-delay: 80ms;
 }
+i{
+    color: black;
+}
+
+span{
+    color: red;
+    font-size: 20px;
+}
+
+/*  calendar */
+
+#calendar{
+    width: 80%;
+    margin: auto;
+    /* height: 500px; */
+}

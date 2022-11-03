@@ -13,6 +13,7 @@
             <thead>
             <tr class="bg-secondary">
                 <th scope="col ">Formation</th>
+                <th scope="col ">Titre de la formation</th>
                 <th scope="col ">Date début de session</th>
                 <th scope="col">Date fin de session</th>
                 <th scope="col">Nombre de place</th>
@@ -27,6 +28,7 @@
                 {% for session in sessions %}
                 <tr>
                     <td>{{ session.formation }}</td>
+                    <td>{{ session.title }}</td>
                     <td>{{ session.dateStart | date('d/m/Y') }}</td>
                     <td>{{ session.dateEnd | date('d/m/Y') }}</td>
                     <td>{{ session.nbPlace }}</td>

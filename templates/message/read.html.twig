@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messagerie reception {% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <h1 class="text-center">Message recu de {{message.sender}}</h1>
+        <div class="col">
+            <div class="card">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><strong>Objet :</strong>  {{ message.title }}</li>
+                  <li class="list-group-item"><strong>Envoyer par:</strong> {{ message.sender}}</li>
+                  <li class="list-group-item"><strong>Email :</strong> {{ message.sender.email}}</li>
+                  <li class="list-group-item"><strong>Envoyer le :</strong> {{message.createdAt | date('d/m/Y H:m')}}</li>
+                </ul>
+                <div class="card-body">
+                    <p class="card-text"><strong>Message :</strong></p>
+                    <p class="card-text">{{message.message}}</p>
+                </div>
+              <button><a href="{{ path('app_messageMail')}}" class="card-link">retour</a></button>  
+            </div> 
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
