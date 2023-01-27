@@ -4,7 +4,7 @@
 
 {% block body %}
     {# {{dump(data)}} #}
-<div id='calendar'></div>
+{# <div id='calendar'></div> #}
     <h1>Calendar index</h1>
 
     <table class="table">
@@ -47,7 +47,7 @@
     </table>
     <button class="btn btn-lg btn-primary" type="submit"><a href="{{ path('app_calendar_new') }}">Crée un nouvelle évenement</a></button>
     
-    <div id='calendarSession'></div>
+    {# <div id='calendarSession'></div> #}
         {% block javascripts %}
             <script>
                 // on ajoute un evenement d'écoute sur le document charger sur cet page avec une fonction
