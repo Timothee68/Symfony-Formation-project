@@ -49,7 +49,7 @@ security:
     access_control:
     
         - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/secretaire, roles: ROLE_SECRETAIRE }
+        - { path: ^/secretaire, roles: ROLE_SECRETAIRE}
         - { path: ^/formateur, roles: ROLE_FORMATEUR }
         - { path: ^/admin, roles: ROLE_ADMIN }
 
